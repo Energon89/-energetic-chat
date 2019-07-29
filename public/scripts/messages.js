@@ -53,7 +53,7 @@ function showMessages(uid) {
 
     const newMessage = document.createElement("li");
     newMessage.className = "message";
-    if (currentMessage.userId == uid) {
+    if (currentMessage.id == uid) {
       newMessage.classList.add("message--mine");
     }
 
@@ -72,9 +72,9 @@ function sendMessage(event) {
   const userName = localStorage.getItem("userName");
 
   newMessages.push({
-    userId: userId,
     name: userName,
-    text: newMessageText
+    text: newMessageText,
+    id: userId
   });
   showMessages(userId);
 

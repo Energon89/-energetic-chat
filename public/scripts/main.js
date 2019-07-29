@@ -1,10 +1,8 @@
 import { Login } from "./login.js";
 import { Messages } from "./messages.js";
-import { Users } from "./users.js";
 
 const login = new Login();
 const messages = new Messages();
-const users = new Users();
 
 const htmlElements = {
   messageOutput: document.querySelector("ul.messages"),
