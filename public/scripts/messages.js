@@ -1,20 +1,17 @@
 import { MessageService } from "./messageService.js";
 
-const messageService = new MessageService();
+const _messageService = new MessageService();
 
-var newMessages = [];
+const socket = io("http://localhost:3000");
+
+const userId = localStorage.getItem("userId");
 
 function Messages() {}
 
-Messages.prototype.init = function(uid) {
-  messageService
-    .getMessages()
-    .then(function(data) {
-      newMessages = data;
-    })
-    .then(function() {
-      showMessages(uid);
-    });
+Messages.prototype.init = function() {
+  _messageService.getMessages().then(function(data) {
+    showMessages(data);
+  });
 };
 
 const htmlElements = {
@@ -32,51 +29,54 @@ htmlElements.messageForm.addEventListener("keydown", function(e) {
 // Toggle for the button.
 htmlElements.messageInput.addEventListener("input", toggleButton);
 
-function showMessages(uid) {
+function showMessages(messages) {
   htmlElements.messageOutput.innerHTML = "";
-
-  for (let i = 0; i < newMessages.length; i++) {
-    const currentMessage = newMessages[i];
-
-    const authorPhoto = document.createElement("img");
-    authorPhoto.classList.add("message__photo");
-    authorPhoto.setAttribute("src", "images/default_photo_profile.png");
-    authorPhoto.setAttribute("alt", "photo_profile");
-
-    const authorNameSpan = document.createElement("span");
-    authorNameSpan.classList.add("message__author");
-    authorNameSpan.innerText = currentMessage.name;
-
-    const newMessageText = document.createElement("div");
-    newMessageText.className = "message__text";
-    newMessageText.innerText = currentMessage.text;
-
-    const newMessage = document.createElement("li");
-    newMessage.className = "message";
-    if (currentMessage.id == uid) {
-      newMessage.classList.add("message--mine");
-    }
-
-    newMessage.appendChild(authorPhoto);
-    newMessage.appendChild(authorNameSpan);
-    newMessage.appendChild(newMessageText);
-    htmlElements.messageOutput.appendChild(newMessage);
-    scrollDown();
+  for (let i = 0; i < messages.length; i++) {
+    printMessage(messages[i]);
   }
+}
+
+function printMessage(currentMessage) {
+  const authorPhoto = document.createElement("img");
+  authorPhoto.classList.add("message__photo");
+  authorPhoto.setAttribute("src", "images/default_photo_profile.png");
+  authorPhoto.setAttribute("alt", "photo_profile");
+
+  const authorNameSpan = document.createElement("span");
+  authorNameSpan.classList.add("message__author");
+  authorNameSpan.innerText = currentMessage.name;
+
+  const newMessageText = document.createElement("div");
+  newMessageText.className = "message__text";
+  newMessageText.innerText = currentMessage.text;
+
+  const newMessage = document.createElement("li");
+  newMessage.className = "message";
+  if (currentMessage.uid == localStorage.getItem("userId")) {
+    newMessage.classList.add("message--mine");
+  }
+
+  newMessage.appendChild(authorPhoto);
+  newMessage.appendChild(authorNameSpan);
+  newMessage.appendChild(newMessageText);
+  htmlElements.messageOutput.appendChild(newMessage);
+  scrollDown();
 }
 
 function sendMessage(event) {
   event.preventDefault();
-  const newMessageText = htmlElements.messageInput.value;
-  const userId = localStorage.getItem("userId");
-  const userName = localStorage.getItem("userName");
 
-  newMessages.push({
-    name: userName,
+  const newMessageText = htmlElements.messageInput.value;
+
+  const newMessage = {
+    name: localStorage.getItem("userName"),
     text: newMessageText,
-    id: userId
-  });
-  showMessages(userId);
+    uid: localStorage.getItem("userId")
+  };
+
+  _messageService.addMessage(newMessage);
+
+  socket.emit("chat", newMessage);
 
   htmlElements.messageInput.value = "";
   toggleButton();
@@ -94,5 +94,8 @@ function scrollDown() {
   htmlElements.messageOutput.scrollTop =
     htmlElements.messageOutput.scrollHeight;
 }
+
+socket.on("connect", () => console.log("socket online"));
+socket.on("chat", message => printMessage(message));
 
 export { Messages };

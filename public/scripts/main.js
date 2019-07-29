@@ -11,13 +11,15 @@ const htmlElements = {
   logoutButton: document.querySelector(".chat-header__btns .btn-red"),
   loginButtonText: document.querySelector(
     "form.signup-form > div.buttom-text > a"
-  )
+  ),
+  sendButton: document.querySelector(".chat-footer .btn-green")
 };
 
 htmlElements.loginButton.addEventListener("click", login.loginClick);
 htmlElements.loginButtonText.addEventListener("click", login.loginClick);
 htmlElements.logoutButton.addEventListener("click", login.logoutClick);
 htmlElements.messageOutput.classList.add("hidden");
+htmlElements.sendButton.addEventListener("submit", init);
 
 document.addEventListener("loginSuccess", init);
 
@@ -28,7 +30,7 @@ function init() {
   if (userId === null || userId === undefined) {
     login.loginClick();
   } else {
-    messages.init(userId);
+    messages.init();
     htmlElements.authorDisplayName.innerText = localStorage.getItem("userName");
     htmlElements.messageOutput.classList.remove("hidden");
     htmlElements.logoutButton.classList.remove("hidden");

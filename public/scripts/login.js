@@ -59,7 +59,6 @@ function logIn(event) {
   const name = htmlElements.inputUserName.value;
   const password = htmlElements.inputPassword.value;
   usersService.getUserInfo(name, password).then(function(data) {
-    console.log(data);
     if (data.userId === null) {
       htmlElements.divUserName.classList.add("invalid");
       htmlElements.divPassword.classList.add("invalid");
