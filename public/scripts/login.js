@@ -1,6 +1,4 @@
-import { UsersService } from "./usersService.js";
-
-const usersService = new UsersService();
+import { UsersService } from "./modules.js";
 
 const htmlElements = {
   messageOutput: document.querySelector("ul.messages"),
@@ -19,16 +17,7 @@ const htmlElements = {
   inputPassword: document.querySelector(
     "form.login-form > div:nth-child(4) > input[type=password]"
   ),
-  divPassword: document.querySelector("form.login-form > div:nth-child(4)"),
-  inputNewUserName: document.querySelector(
-    "form.signup-form > div:nth-child(3) > input[type=text]"
-  ),
-  inputNewPassword: document.querySelector(
-    "form.signup-form > div:nth-child(4) > input[type=password]"
-  ),
-  inputConfirmNewPassword: document.querySelector(
-    "form.signup-form > div:nth-child(5) > input[type=password]"
-  )
+  divPassword: document.querySelector("form.login-form > div:nth-child(4)")
 };
 
 htmlElements.signUp.addEventListener("click", signUpClick);
@@ -58,7 +47,8 @@ function logIn(event) {
   event.preventDefault();
   const name = htmlElements.inputUserName.value;
   const password = htmlElements.inputPassword.value;
-  usersService.getUserInfo(name, password).then(function(data) {
+  const _usersService = new UsersService();
+  _usersService.getUserInfo(name, password).then(function(data) {
     if (data.userId === null) {
       htmlElements.divUserName.classList.add("invalid");
       htmlElements.divPassword.classList.add("invalid");

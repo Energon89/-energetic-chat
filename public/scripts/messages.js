@@ -1,4 +1,4 @@
-import { MessageService } from "./messageService.js";
+import { MessageService } from "./modules.js";
 
 const _messageService = new MessageService();
 
@@ -24,7 +24,7 @@ const htmlElements = {
 
 htmlElements.messageForm.addEventListener("submit", sendMessage);
 htmlElements.messageForm.addEventListener("keydown", function(e) {
-  if (e.keyCode === 13) sendMessage(e);
+  if (e.keyCode === 13 && !e.shiftKey) sendMessage(e);
 });
 // Toggle for the button.
 htmlElements.messageInput.addEventListener("input", toggleButton);

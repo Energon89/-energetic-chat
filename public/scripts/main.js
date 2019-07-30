@@ -1,8 +1,8 @@
-import { Login } from "./login.js";
-import { Messages } from "./messages.js";
+import { Login, Messages, Users } from "./modules.js";
 
-const login = new Login();
-const messages = new Messages();
+const _login = new Login();
+const _messages = new Messages();
+const _users = new Users();
 
 const htmlElements = {
   messageOutput: document.querySelector("ul.messages"),
@@ -12,14 +12,14 @@ const htmlElements = {
   loginButtonText: document.querySelector(
     "form.signup-form > div.buttom-text > a"
   ),
-  sendButton: document.querySelector(".chat-footer .btn-green")
+  signUpForm: document.querySelector("form.signup-form")
 };
 
-htmlElements.loginButton.addEventListener("click", login.loginClick);
-htmlElements.loginButtonText.addEventListener("click", login.loginClick);
-htmlElements.logoutButton.addEventListener("click", login.logoutClick);
+htmlElements.loginButton.addEventListener("click", _login.loginClick);
+htmlElements.loginButtonText.addEventListener("click", _login.loginClick);
+htmlElements.logoutButton.addEventListener("click", _login.logoutClick);
+htmlElements.signUpForm.addEventListener("submit", _users.createNewAccount);
 htmlElements.messageOutput.classList.add("hidden");
-htmlElements.sendButton.addEventListener("submit", init);
 
 document.addEventListener("loginSuccess", init);
 
@@ -28,9 +28,9 @@ function init() {
   //console.log(userId);
 
   if (userId === null || userId === undefined) {
-    login.loginClick();
+    _login.loginClick();
   } else {
-    messages.init();
+    _messages.init();
     htmlElements.authorDisplayName.innerText = localStorage.getItem("userName");
     htmlElements.messageOutput.classList.remove("hidden");
     htmlElements.logoutButton.classList.remove("hidden");

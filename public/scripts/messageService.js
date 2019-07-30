@@ -1,18 +1,19 @@
-import { Data } from "./data.js";
+import { Data } from "./modules.js";
 
-const data = new Data();
-const jsonRequestURL = "https://energetic-chat.herokuapp.com/messages";
+const _data = new Data();
 
 function MessageService() {}
 
 MessageService.prototype.getMessages = function() {
-  return data.getUsefulContents(jsonRequestURL).then(function(data) {
-    return data;
-  });
+  return _data
+    .getUsefulContents("https://energetic-chat.herokuapp.com/messages")
+    .then(function(data) {
+      return data;
+    });
 };
 
 MessageService.prototype.addMessage = function(message) {
-  return fetch(jsonRequestURL, {
+  return fetch("https://energetic-chat.herokuapp.com/messages", {
     method: "POST",
     body: JSON.stringify(message),
     headers: {

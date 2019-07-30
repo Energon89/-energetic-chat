@@ -1,19 +1,52 @@
-import { Data } from "./data.js";
+import { Data } from "./modules.js";
 
-const data = new Data();
-const jsonRequestURL = "https://energetic-chat.herokuapp.com/users";
+const _data = new Data();
 
-function UsersService() {}
+class UsersService {
+  getUserInfo(name, password) {
+    return _data
+      .getUsefulContents("https://energetic-chat.herokuapp.com/users")
+      .then(data => {
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].name === name && data[i].password === password) {
+            return { userId: data[i].id, name: data[i].name };
+          }
+        }
+        return { userId: null, name: "InvalidLogin" };
+      });
+  }
 
-UsersService.prototype.getUserInfo = function(name, password) {
-  return data.getUsefulContents(jsonRequestURL).then(function(data) {
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].name === name && data[i].password === password) {
-        return { userId: data[i].id, name: data[i].name };
+  checkUser(name) {
+    return fetch("https://energetic-chat.herokuapp.com/users")
+      .then(response => {
+        return response.json();
+      })
+      .then(users => {
+        let value = false;
+        users.forEach(user => {
+          if (user.name === name) {
+            value = true;
+          }
+        });
+        return value;
+      });
+  }
+
+  addUser(user) {
+    return fetch("https://energetic-chat.herokuapp.com/users", {
+      method: "POST",
+      body: JSON.stringify(user),
+      headers: {
+        "Content-Type": "application/json"
       }
-    }
-    return { userId: null, name: "InvalidLogin" };
-  });
-};
+    }).then(response => response.json());
+  }
+
+  // deleteUser(id) {
+  //   return fetch(`https://energetic-chat.herokuapp.com/users/${id}`, {
+  //     method: "DELETE"
+  //   }).then(response => response.status);
+  // }
+}
 
 export { UsersService };
