@@ -1,5 +1,4 @@
 import { UsersService } from "./modules.js";
-import { rejects } from "assert";
 
 let _usersService;
 let _htmlElements;
@@ -21,7 +20,7 @@ class Users {
       inputConfirmPassword: document.querySelector(
         "form.signup-form > div:nth-child(5) > input[type=password]"
       ),
-      //signUpForm: document.querySelector("form.signup-form"),
+      signUpForm: document.querySelector("form.signup-form"),
       divUserName: document.querySelector(
         "form.signup-form > div:nth-child(3)"
       ),
@@ -49,9 +48,7 @@ class Users {
       .checkUser(name)
       .then(value => {
         if (value === true) {
-          alert("User with the same name already exists.");
-          _htmlElements.divUserName.classList.add("invalid");
-          // return Promise.reject();
+          return Promise.reject("User with the same name already exists.");
         }
       })
       .then(() => {
@@ -61,7 +58,15 @@ class Users {
             password: password
           };
           _usersService.addUser(newUser);
+          _htmlElements.inputUserName.value = "";
+          _htmlElements.inputPassword.value = "";
+          _htmlElements.signUpForm.classList.add("hidden");
+          alert("Account created successfully!");
         }
+      })
+      .catch(reject => {
+        alert(reject);
+        _htmlElements.divUserName.classList.add("invalid");
       });
 
     const checkPasswordValid = () => {
