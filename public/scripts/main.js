@@ -1,4 +1,5 @@
 import { Login, Messages, Users } from "./modules.js";
+import * as preloader from "./preloader.js";
 
 const _login = new Login();
 const _messages = new Messages();
