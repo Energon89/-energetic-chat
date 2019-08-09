@@ -39,9 +39,6 @@ export class Users {
     const name = _htmlElements.inputUserName.value;
     const password = _htmlElements.inputPassword.value;
 
-    if (!name || !password) {
-      return false;
-    }
     _usersService.getUserInfo(name, password).then(function(data) {
       if (!data.userId) {
         localStorage.setItem("isLogin", false);
