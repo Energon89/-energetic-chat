@@ -1,4 +1,4 @@
-import { UsersService } from "./modules.js";
+import { Users, RegisterForm, LoginForm } from "./modules.js";
 
 //Create DOM elements
 const htmlElements = {
@@ -32,10 +32,23 @@ htmlElements.signUp.addEventListener("click", signUpClick);
 htmlElements.closeButtons.forEach(function(button) {
   button.addEventListener("click", closeButtonClick);
 });
-htmlElements.loginForm.addEventListener("submit", logIn);
 htmlElements.logoutButton.classList.add("hidden");
+document.addEventListener("loginSuccess", loginSuccess);
 
-function Login() {}
+function Login() {
+  new RegisterForm().init(this.OnRegisterSubmitHandler);
+  new LoginForm().init(this.OnLoginSubmitHandler);
+}
+
+Login.prototype.OnRegisterSubmitHandler = function() {
+  const _users = new Users();
+  _users.createNewAccount();
+};
+
+Login.prototype.OnLoginSubmitHandler = function() {
+  const _users = new Users();
+  _users.logIn();
+};
 
 Login.prototype.loginClick = function() {
   htmlElements.signupForm.classList.add("hidden");
@@ -43,8 +56,6 @@ Login.prototype.loginClick = function() {
 };
 
 Login.prototype.logoutClick = function() {
-  // localStorage.removeItem("userId");
-  // localStorage.removeItem("userName");
   localStorage.clear();
   htmlElements.logoutButton.classList.add("hidden");
   htmlElements.loginButton.classList.remove("hidden");
@@ -53,32 +64,10 @@ Login.prototype.logoutClick = function() {
   closeButtonClick();
 };
 
-//check the logs and password in the database
-//if they pass the check we enter in the localStorage
-function logIn(event) {
-  event.preventDefault();
-  const name = htmlElements.inputUserName.value;
-  const password = htmlElements.inputPassword.value;
-  const _usersService = new UsersService();
-  if (!name || !password) {
-    return false;
-  }
-  _usersService.getUserInfo(name, password).then(function(data) {
-    if (!data.userId) {
-      localStorage.setItem("isLogin", false);
-      console.log(`%c Invalid 'user name' or 'password'!`, "color: blue");
-      const evt = new Event("loginNotSuccess");
-      document.dispatchEvent(evt);
-    } else {
-      localStorage.setItem("userId", data.userId);
-      localStorage.setItem("userName", data.name);
-      const evt = new Event("loginSuccess");
-      document.dispatchEvent(evt);
-      htmlElements.logoutButton.classList.remove("hidden");
-      htmlElements.loginButton.classList.add("hidden");
-      closeButtonClick();
-    }
-  });
+function loginSuccess() {
+  htmlElements.logoutButton.classList.remove("hidden");
+  htmlElements.loginButton.classList.add("hidden");
+  closeButtonClick();
 }
 
 function signUpClick() {

@@ -64,6 +64,14 @@ export class ItemValidation {
           isValid = false;
         }
         break;
+      case "correct":
+        const RegexName = new RegExp(
+          "^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$"
+        );
+        if (!RegexName.test(this._validationForElementsArray[0].value)) {
+          isValid = false;
+        }
+        break;
       default:
         throw new Error("validation type is not recognized");
     }

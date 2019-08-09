@@ -4,8 +4,6 @@ const _messageService = new MessageService();
 
 const socket = io("http://localhost:3000"); //connect web socket
 
-const userId = localStorage.getItem("userId");
-
 function Messages() {}
 
 Messages.prototype.init = function() {
@@ -62,7 +60,7 @@ function printMessage(currentMessage) {
   newMessage.appendChild(authorNameSpan);
   newMessage.appendChild(newMessageText);
   htmlElements.messageOutput.appendChild(newMessage);
-  scrollDown();
+  setTimeout(scrollDown(), 0);
 }
 
 function sendMessage(event) {

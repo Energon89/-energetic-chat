@@ -3,18 +3,26 @@ import { UsersService } from "./modules.js";
 let _usersService;
 let _htmlElements;
 
-class Users {
+export class Users {
   constructor() {
     _usersService = new UsersService();
     this.initDomElements();
+    _htmlElements.signUpForm.addEventListener("submit", this.createNewAccount);
+    _htmlElements.loginForm.addEventListener("submit", this.logIn);
   }
 
   initDomElements() {
     _htmlElements = {
       inputUserName: document.querySelector(
-        "form.signup-form > div:nth-child(3) > input[type=text]"
+        "form.login-form > div:nth-child(3) > input[type=text]"
       ),
       inputPassword: document.querySelector(
+        "form.login-form > div:nth-child(4) > input[type=password]"
+      ),
+      inputUserNameSign: document.querySelector(
+        "form.signup-form > div:nth-child(3) > input[type=text]"
+      ),
+      inputPasswordSign: document.querySelector(
         "form.signup-form > div:nth-child(4) > input[type=password]"
       ),
       inputConfirmPassword: document.querySelector(
@@ -25,11 +33,33 @@ class Users {
     };
   }
 
-  createNewAccount(event) {
-    event.preventDefault();
+  //check the logs and password in the database
+  //if they pass the check we save in the localStorage
+  logIn() {
     const name = _htmlElements.inputUserName.value;
     const password = _htmlElements.inputPassword.value;
-    const confirmPassword = _htmlElements.inputConfirmPassword.value;
+
+    if (!name || !password) {
+      return false;
+    }
+    _usersService.getUserInfo(name, password).then(function(data) {
+      if (!data.userId) {
+        localStorage.setItem("isLogin", false);
+        console.log(`%c Invalid 'user name' or 'password'!`, "color: blue");
+        const evt = new Event("loginNotSuccess");
+        document.dispatchEvent(evt);
+      } else {
+        localStorage.setItem("userId", data.userId);
+        localStorage.setItem("userName", data.name);
+        const evt = new Event("loginSuccess");
+        document.dispatchEvent(evt);
+      }
+    });
+  }
+
+  createNewAccount() {
+    const name = _htmlElements.inputUserNameSign.value;
+    const password = _htmlElements.inputPasswordSign.value;
 
     _usersService
       .checkUser(name)
@@ -40,21 +70,18 @@ class Users {
         }
       })
       .then(() => {
-        if (checkPasswordValid() === true) {
-          const newUser = {
-            name: name,
-            password: password
-          };
-          _usersService.addUser(newUser);
-          _htmlElements.inputUserName.value = "";
-          _htmlElements.inputPassword.value = "";
-          _htmlElements.inputConfirmPassword.value = "";
-          _htmlElements.signUpForm.classList.add("hidden");
-          _htmlElements.loginForm.classList.remove("hidden");
-          //alert("Account created successfully!");
-          console.clear();
-          console.log(`%c Account created successfully!`, "color: green");
-        }
+        const newUser = {
+          name: name,
+          password: password
+        };
+        _usersService.addUser(newUser);
+        _htmlElements.inputUserName.value = "";
+        _htmlElements.inputPassword.value = "";
+        _htmlElements.inputConfirmPassword.value = "";
+        _htmlElements.signUpForm.classList.add("hidden");
+        _htmlElements.loginForm.classList.remove("hidden");
+        console.clear();
+        console.log(`%c Account created successfully!`, "color: green");
       })
       .catch(reject => {
         console.clear();
@@ -62,20 +89,5 @@ class Users {
         const evt = new Event("sameNameSuccess");
         document.dispatchEvent(evt);
       });
-
-    const checkPasswordValid = () => {
-      const RegexPass = new RegExp(
-        "^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})"
-      );
-      if (!RegexPass.test(password)) {
-        return false;
-      }
-      if (password !== confirmPassword) {
-        return false;
-      }
-      return true;
-    };
   }
 }
-
-export { Users };
