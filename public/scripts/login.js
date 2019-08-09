@@ -40,6 +40,7 @@ Login.prototype.logoutClick = function() {
   htmlElements.loginButton.classList.remove("hidden");
   htmlElements.messageOutput.classList.add("hidden");
   htmlElements.authorDisplayName.innerText = "";
+  closeButtonClick();
 };
 
 function logIn(event) {
@@ -79,7 +80,12 @@ function closeButtonClick() {
   htmlElements.inputPassword.value = "";
   htmlElements.loginForm.classList.add("hidden");
   htmlElements.signupForm.classList.add("hidden");
-  htmlElements.loginForm.reset();
+  htmlElements.loginForm.querySelectorAll(".error").forEach(element => {
+    element.classList.add("hidden");
+  });
+  htmlElements.signupForm.querySelectorAll(".error").forEach(element => {
+    element.classList.add("hidden");
+  });
   localStorage.removeItem("userName");
 }
 
