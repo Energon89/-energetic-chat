@@ -20,7 +20,8 @@ class Users {
       inputConfirmPassword: document.querySelector(
         "form.signup-form > div:nth-child(5) > input[type=password]"
       ),
-      signUpForm: document.querySelector("form.signup-form")
+      signUpForm: document.querySelector("form.signup-form"),
+      loginForm: document.querySelector("form.login-form")
     };
   }
 
@@ -47,7 +48,9 @@ class Users {
           _usersService.addUser(newUser);
           _htmlElements.inputUserName.value = "";
           _htmlElements.inputPassword.value = "";
+          _htmlElements.inputConfirmPassword.value = "";
           _htmlElements.signUpForm.classList.add("hidden");
+          _htmlElements.loginForm.classList.remove("hidden");
           //alert("Account created successfully!");
           console.clear();
           console.log(`%c Account created successfully!`, "color: green");

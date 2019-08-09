@@ -15,6 +15,15 @@ const htmlElements = {
   ),
   inputPassword: document.querySelector(
     "form.login-form > div:nth-child(4) > input[type=password]"
+  ),
+  inputUserNameSign: document.querySelector(
+    "form.signup-form > div:nth-child(3) > input[type=text]"
+  ),
+  inputPasswordSign: document.querySelector(
+    "form.signup-form > div:nth-child(4) > input[type=password]"
+  ),
+  inputConfirmPassword: document.querySelector(
+    "form.signup-form > div:nth-child(5) > input[type=password]"
   )
 };
 
@@ -78,6 +87,9 @@ function signUpClick() {
 function closeButtonClick() {
   htmlElements.inputUserName.value = "";
   htmlElements.inputPassword.value = "";
+  htmlElements.inputUserNameSign.value = "";
+  htmlElements.inputPasswordSign.value = "";
+  htmlElements.inputConfirmPassword.value = "";
   htmlElements.loginForm.classList.add("hidden");
   htmlElements.signupForm.classList.add("hidden");
   htmlElements.loginForm.querySelectorAll(".error").forEach(element => {
