@@ -65,7 +65,7 @@ function logIn(event) {
   }
   _usersService.getUserInfo(name, password).then(function(data) {
     if (!data.userId) {
-      localStorage.setItem("userName", data.name);
+      localStorage.setItem("isLogin", false);
       console.log(`%c Invalid 'user name' or 'password'!`, "color: blue");
       const evt = new Event("loginNotSuccess");
       document.dispatchEvent(evt);
@@ -101,7 +101,7 @@ function closeButtonClick() {
   htmlElements.signupForm.querySelectorAll(".error").forEach(element => {
     element.classList.add("hidden");
   });
-  //localStorage.removeItem("userName");
+  localStorage.removeItem("isLogin");
 }
 
 export { Login };

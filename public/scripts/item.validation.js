@@ -39,8 +39,7 @@ export class ItemValidation {
           this._validationForElementsArray[0].value.length > 0;
         break;
       case "invalid":
-        if (localStorage.getItem("userName") === "InvalidLogin")
-          isValid = false;
+        isValid = !localStorage.getItem("isLogin");
         break;
       case "password":
         isValid =
