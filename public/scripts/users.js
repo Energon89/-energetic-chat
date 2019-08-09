@@ -20,34 +20,21 @@ class Users {
       inputConfirmPassword: document.querySelector(
         "form.signup-form > div:nth-child(5) > input[type=password]"
       ),
-      signUpForm: document.querySelector("form.signup-form"),
-      divUserName: document.querySelector(
-        "form.signup-form > div:nth-child(3)"
-      ),
-      divPassword: document.querySelector(
-        "form.signup-form > div:nth-child(4)"
-      ),
-      divConfirmPassword: document.querySelector(
-        "form.signup-form > div:nth-child(5)"
-      )
+      signUpForm: document.querySelector("form.signup-form")
     };
-
-    //_htmlElements.signUpForm.addEventListener("submit", createNewAccaunt);
   }
 
   createNewAccount(event) {
     event.preventDefault();
-    _htmlElements.divUserName.classList.remove("invalid");
-    _htmlElements.divPassword.classList.remove("invalid");
-    _htmlElements.divConfirmPassword.classList.remove("invalid");
     const name = _htmlElements.inputUserName.value;
     const password = _htmlElements.inputPassword.value;
     const confirmPassword = _htmlElements.inputConfirmPassword.value;
 
     _usersService
       .checkUser(name)
-      .then(value => {
-        if (value === true) {
+      .then(data => {
+        if (data.value === true) {
+          localStorage.setItem("sameName", data.name);
           return Promise.reject("User with the same name already exists.");
         }
       })
@@ -61,12 +48,16 @@ class Users {
           _htmlElements.inputUserName.value = "";
           _htmlElements.inputPassword.value = "";
           _htmlElements.signUpForm.classList.add("hidden");
-          alert("Account created successfully!");
+          //alert("Account created successfully!");
+          console.clear();
+          console.log(`%c Account created successfully!`, "color: green");
         }
       })
       .catch(reject => {
-        alert(reject);
-        _htmlElements.divUserName.classList.add("invalid");
+        console.clear();
+        console.log(`%c ${reject}`, "color: blue");
+        const evt = new Event("sameNameSuccess");
+        document.dispatchEvent(evt);
       });
 
     const checkPasswordValid = () => {
@@ -74,13 +65,9 @@ class Users {
         "^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})"
       );
       if (!RegexPass.test(password)) {
-        alert("Create a stronger password.");
-        _htmlElements.divPassword.classList.add("invalid");
         return false;
       }
       if (password !== confirmPassword) {
-        _htmlElements.divPassword.classList.add("invalid");
-        _htmlElements.divConfirmPassword.classList.add("invalid");
         return false;
       }
       return true;

@@ -28,7 +28,7 @@ class UsersService {
             value = true;
           }
         });
-        return value;
+        return { value, name };
       });
   }
 

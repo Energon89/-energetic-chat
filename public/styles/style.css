@@ -149,27 +149,20 @@ body {
 }
 
 .txtb {
-  border-bottom: 2px solid #adadad;
   position: relative;
   margin: 30px 0;
 }
 
 .txtb input {
+  border: none;
+  border-bottom: 2px solid #adadad;
   font-size: 15px;
   color: #333;
-  border: none;
-  width: 100%;
   outline: none;
+  width: 100%;
   background: none;
   padding: 0 5px;
   height: 40px;
-}
-
-.txtb input:invalid + .placeholder {
-  display: block;
-}
-.txtb input:focus + .placeholder {
-  display: none;
 }
 
 .txtb span::before {
@@ -241,9 +234,6 @@ body {
 .hidden {
   display: none;
 }
-.invalid {
-  border-bottom: 2px solid red;
-}
 
 .preloader {
   position: fixed;
@@ -282,4 +272,22 @@ body {
   to {
     transform: translate(-50%, -50%) rotate(360deg);
   }
+}
+
+form label {
+  display: block;
+}
+
+form .error {
+  font: 10pt sans-serif;
+  color: red;
+}
+
+form .error-container {
+  display: flex;
+  flex-direction: column;
+}
+
+form .hidden {
+  display: none;
 }

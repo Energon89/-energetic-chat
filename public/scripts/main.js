@@ -1,9 +1,11 @@
-import { Login, Messages, Users } from "./modules.js";
+import { Login, Messages, Users, RegisterForm, LoginForm } from "./modules.js";
 import * as preloader from "./preloader.js";
 
 const _login = new Login();
 const _messages = new Messages();
 const _users = new Users();
+new RegisterForm().init();
+new LoginForm().init();
 
 const htmlElements = {
   messageOutput: document.querySelector("ul.messages"),
@@ -28,7 +30,7 @@ function init() {
   const userId = localStorage.getItem("userId");
   //console.log(userId);
 
-  if (userId === null || userId === undefined) {
+  if (!userId) {
     _login.loginClick();
   } else {
     _messages.init();

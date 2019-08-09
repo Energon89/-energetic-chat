@@ -51,19 +51,43 @@
       </div>
     </section>
 
-    <form class="login-form hidden">
+    <form novalidate class="login-form hidden">
       <span class="close" title="Close Login">&times;</span>
-
-      <h1>Login</h1>
+      <h1 data-title-for="login-form">Login</h1>
 
       <div class="txtb">
-        <input type="text" />
-        <span class="placeholder" data-placeholder="User name"></span>
+        <input name="userName" placeholder="User name" type="text" />
+        <div class="error-container">
+          <span
+            class="error hidden"
+            data-validation
+            data-validation-for="userName"
+            data-validation-type="required"
+            >'User name' field is required</span
+          >
+        </div>
       </div>
 
       <div class="txtb">
-        <input type="password" />
-        <span class="placeholder" data-placeholder="Password"></span>
+        <input name="password" placeholder="Password" type="password" />
+        <div class="error-container">
+          <span
+            class="error hidden"
+            data-validation
+            data-validation-for="password"
+            data-validation-type="required"
+          >
+            'Your password' field is required
+          </span>
+          <span
+            class="error hidden"
+            data-validation
+            data-validation-for="userName"
+            data-validation-type="invalid"
+          >
+            Invalid 'user name' or 'password'!
+          </span>
+        </div>
       </div>
 
       <button type="submit" class="btn logbtn">Login</button>
@@ -74,24 +98,72 @@
       </div>
     </form>
 
-    <form class="signup-form hidden">
+    <form novalidate class="signup-form hidden">
       <span class="close" title="Close Sign up">&times;</span>
-
-      <h1>Create your Account</h1>
+      <h1 data-title-for="signup-form">Create your Account</h1>
 
       <div class="txtb">
-        <input type="text" />
-        <span class="placeholder" data-placeholder="User name"></span>
+        <input name="userName" placeholder="User name" type="text" />
+        <div class="error-container">
+          <span
+            class="error hidden"
+            data-validation
+            data-validation-for="userName"
+            data-validation-type="required"
+            >'User name' field is required</span
+          >
+          <span
+            class="error hidden"
+            data-validation
+            data-validation-for="userName"
+            data-validation-type="samename"
+            >User with the same name already exists</span
+          >
+        </div>
       </div>
 
       <div class="txtb">
-        <input type="password" />
-        <span class="placeholder" data-placeholder="Password"></span>
+        <input name="password" placeholder="Password" type="password" />
+        <div class="error-container">
+          <span
+            class="error hidden"
+            data-validation
+            data-validation-for="password"
+            data-validation-type="required"
+            >'Your password' field is required</span
+          >
+          <span
+            class="error hidden"
+            data-validation
+            data-validation-for="password"
+            data-validation-type="stronger"
+            >Create a stronger 'password'.</span
+          >
+        </div>
       </div>
 
       <div class="txtb">
-        <input type="password" />
-        <span class="placeholder" data-placeholder="Confirm password"></span>
+        <input
+          name="password2"
+          placeholder="Confirm password"
+          type="password"
+        />
+        <div class="error-container">
+          <span
+            class="error hidden"
+            data-validation
+            data-validation-for="password2"
+            data-validation-type="required"
+            >'Repeat password' field is required</span
+          >
+          <span
+            class="error hidden"
+            data-validation
+            data-validation-for="password,password2"
+            data-validation-type="password"
+            >Passwords do not match.</span
+          >
+        </div>
       </div>
 
       <button type="submit" class="btn logbtn">Create</button>

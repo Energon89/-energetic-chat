@@ -13,11 +13,9 @@ const htmlElements = {
   inputUserName: document.querySelector(
     "form.login-form > div:nth-child(3) > input[type=text]"
   ),
-  divUserName: document.querySelector("form.login-form > div:nth-child(3)"),
   inputPassword: document.querySelector(
     "form.login-form > div:nth-child(4) > input[type=password]"
-  ),
-  divPassword: document.querySelector("form.login-form > div:nth-child(4)")
+  )
 };
 
 htmlElements.signUp.addEventListener("click", signUpClick);
@@ -48,11 +46,12 @@ function logIn(event) {
   const name = htmlElements.inputUserName.value;
   const password = htmlElements.inputPassword.value;
   const _usersService = new UsersService();
+
   _usersService.getUserInfo(name, password).then(function(data) {
-    if (data.userId === null) {
-      htmlElements.divUserName.classList.add("invalid");
-      htmlElements.divPassword.classList.add("invalid");
-      alert("Invalid username or password");
+    if (!data.userId) {
+      const event = new Event("loginNotSuccess");
+      document.dispatchEvent(event);
+      console.log(`%c Invalid 'user name' or 'password'!`, "color: blue");
     } else {
       localStorage.setItem("userId", data.userId);
       localStorage.setItem("userName", data.name);
@@ -60,8 +59,6 @@ function logIn(event) {
       document.dispatchEvent(evt);
       htmlElements.logoutButton.classList.remove("hidden");
       htmlElements.loginButton.classList.add("hidden");
-      htmlElements.divUserName.classList.remove("invalid");
-      htmlElements.divPassword.classList.remove("invalid");
       closeButtonClick();
     }
   });
