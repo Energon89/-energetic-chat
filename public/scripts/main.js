@@ -26,9 +26,9 @@ htmlElements.messageOutput.classList.add("hidden");
 
 document.addEventListener("loginSuccess", init);
 
+//function initializing at page loading
 function init() {
   const userId = localStorage.getItem("userId");
-  //console.log(userId);
 
   if (!userId) {
     _login.loginClick();

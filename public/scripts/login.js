@@ -1,5 +1,6 @@
 import { UsersService } from "./modules.js";
 
+//Create DOM elements
 const htmlElements = {
   messageOutput: document.querySelector("ul.messages"),
   authorDisplayName: document.querySelector(".chat-header__author"),
@@ -52,6 +53,8 @@ Login.prototype.logoutClick = function() {
   closeButtonClick();
 };
 
+//check the logs and password in the database
+//if they pass the check we enter in the localStorage
 function logIn(event) {
   event.preventDefault();
   const name = htmlElements.inputUserName.value;
@@ -60,7 +63,6 @@ function logIn(event) {
   if (!name || !password) {
     return false;
   }
-
   _usersService.getUserInfo(name, password).then(function(data) {
     if (!data.userId) {
       localStorage.setItem("userName", data.name);
@@ -84,6 +86,7 @@ function signUpClick() {
   htmlElements.signupForm.classList.remove("hidden");
 }
 
+//function responsible for clicking on the close button
 function closeButtonClick() {
   htmlElements.inputUserName.value = "";
   htmlElements.inputPassword.value = "";
@@ -98,7 +101,7 @@ function closeButtonClick() {
   htmlElements.signupForm.querySelectorAll(".error").forEach(element => {
     element.classList.add("hidden");
   });
-  localStorage.removeItem("userName");
+  //localStorage.removeItem("userName");
 }
 
 export { Login };

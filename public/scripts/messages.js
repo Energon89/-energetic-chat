@@ -2,7 +2,7 @@ import { MessageService } from "./modules.js";
 
 const _messageService = new MessageService();
 
-const socket = io("http://localhost:3000");
+const socket = io("http://localhost:3000"); //connect web socket
 
 const userId = localStorage.getItem("userId");
 
@@ -14,6 +14,7 @@ Messages.prototype.init = function() {
   });
 };
 
+//Create DOM elements
 const htmlElements = {
   messageOutput: document.querySelector("ul.messages"),
   messageInput: document.querySelector("textarea"),
@@ -23,6 +24,7 @@ const htmlElements = {
 };
 
 htmlElements.messageForm.addEventListener("submit", sendMessage);
+//send a message by pressing enter, go to another line when you click on shift plus enter
 htmlElements.messageForm.addEventListener("keydown", function(e) {
   if (e.keyCode === 13 && !e.shiftKey) sendMessage(e);
 });
