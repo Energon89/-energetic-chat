@@ -17,9 +17,9 @@ export class ItemValidation {
     document.addEventListener("sameNameSuccess", () => {
       this.validate();
     });
-    // document.addEventListener("loginNotSuccess", () => {
-    //   this.validate();
-    // });
+    document.addEventListener("loginNotSuccess", () => {
+      this.validate();
+    });
   }
 
   initEventHandler() {
@@ -39,10 +39,7 @@ export class ItemValidation {
           this._validationForElementsArray[0].value.length > 0;
         break;
       case "invalid":
-        if (
-          this._validationForElementsArray[0] !==
-          localStorage.getItem("userName")
-        )
+        if (localStorage.getItem("userName") === "InvalidLogin")
           isValid = false;
         break;
       case "password":

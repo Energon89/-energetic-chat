@@ -33,8 +33,9 @@ Login.prototype.loginClick = function() {
 };
 
 Login.prototype.logoutClick = function() {
-  localStorage.removeItem("userId");
-  localStorage.removeItem("userName");
+  // localStorage.removeItem("userId");
+  // localStorage.removeItem("userName");
+  localStorage.clear();
   htmlElements.logoutButton.classList.add("hidden");
   htmlElements.loginButton.classList.remove("hidden");
   htmlElements.messageOutput.classList.add("hidden");
@@ -46,12 +47,16 @@ function logIn(event) {
   const name = htmlElements.inputUserName.value;
   const password = htmlElements.inputPassword.value;
   const _usersService = new UsersService();
+  if (!name || !password) {
+    return false;
+  }
 
   _usersService.getUserInfo(name, password).then(function(data) {
     if (!data.userId) {
-      const event = new Event("loginNotSuccess");
-      document.dispatchEvent(event);
+      localStorage.setItem("userName", data.name);
       console.log(`%c Invalid 'user name' or 'password'!`, "color: blue");
+      const evt = new Event("loginNotSuccess");
+      document.dispatchEvent(evt);
     } else {
       localStorage.setItem("userId", data.userId);
       localStorage.setItem("userName", data.name);
@@ -74,6 +79,8 @@ function closeButtonClick() {
   htmlElements.inputPassword.value = "";
   htmlElements.loginForm.classList.add("hidden");
   htmlElements.signupForm.classList.add("hidden");
+  htmlElements.loginForm.reset();
+  localStorage.removeItem("userName");
 }
 
 export { Login };
