@@ -101,7 +101,10 @@ function scrollDown() {
 }
 
 //connect to socket.io
-socket.on("connect", () => console.log("socket online"));
+socket.on("connect", () => console.log(`%c Socket online`, "color: green"));
+socket.on("disconnect", () =>
+  console.log(`%c Socket disconnected`, "color: blue")
+);
 socket.on("chat", message => printMessage(message));
 
 export { Messages };
