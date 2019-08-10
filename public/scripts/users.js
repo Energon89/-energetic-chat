@@ -54,6 +54,7 @@ export class Users {
     });
   }
 
+  //validation on a same name and creation of a new account
   createNewAccount() {
     const name = _htmlElements.inputUserNameSign.value;
     const password = _htmlElements.inputPasswordSign.value;

@@ -2,6 +2,7 @@ import { Data } from "./modules.js";
 
 const _data = new Data();
 
+//check login and password and return name and user id
 class UsersService {
   getUserInfo(name, password) {
     return _data
@@ -16,6 +17,7 @@ class UsersService {
       });
   }
 
+  //check user to same name
   checkUser(name) {
     return fetch("https://energetic-chat.herokuapp.com/users")
       .then(response => {
@@ -32,6 +34,7 @@ class UsersService {
       });
   }
 
+  //post new user to server
   addUser(user) {
     return fetch("https://energetic-chat.herokuapp.com/users", {
       method: "POST",

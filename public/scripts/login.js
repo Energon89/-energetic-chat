@@ -1,6 +1,6 @@
 import { Users, RegisterForm, LoginForm } from "./modules.js";
 
-//Create DOM elements
+//Initialize DOM elements
 const htmlElements = {
   messageOutput: document.querySelector("ul.messages"),
   authorDisplayName: document.querySelector(".chat-header__author"),
@@ -10,7 +10,6 @@ const htmlElements = {
   signupForm: document.querySelector("form.signup-form"),
   closeButtons: document.querySelectorAll(".close"),
   signUp: document.querySelector("form.login-form > div.buttom-text > a"),
-  logInButton: document.querySelector("form.login-form > button"),
   inputUserName: document.querySelector(
     "form.login-form > div:nth-child(3) > input[type=text]"
   ),
@@ -30,7 +29,7 @@ const htmlElements = {
 
 htmlElements.signUp.addEventListener("click", signUpClick);
 htmlElements.closeButtons.forEach(function(button) {
-  button.addEventListener("click", closeButtonClick);
+  button.addEventListener("click", hideForms);
 });
 htmlElements.logoutButton.classList.add("hidden");
 document.addEventListener("loginSuccess", loginSuccess);
@@ -61,13 +60,13 @@ Login.prototype.logoutClick = function() {
   htmlElements.loginButton.classList.remove("hidden");
   htmlElements.messageOutput.classList.add("hidden");
   htmlElements.authorDisplayName.innerText = "";
-  closeButtonClick();
+  hideForms();
 };
 
 function loginSuccess() {
   htmlElements.logoutButton.classList.remove("hidden");
   htmlElements.loginButton.classList.add("hidden");
-  closeButtonClick();
+  hideForms();
 }
 
 function signUpClick() {
@@ -75,8 +74,8 @@ function signUpClick() {
   htmlElements.signupForm.classList.remove("hidden");
 }
 
-//function responsible for clicking on the close button
-function closeButtonClick() {
+//function responsible for hide forms to clicking on the close button
+function hideForms() {
   htmlElements.inputUserName.value = "";
   htmlElements.inputPassword.value = "";
   htmlElements.inputUserNameSign.value = "";

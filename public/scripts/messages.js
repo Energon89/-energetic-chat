@@ -12,7 +12,7 @@ Messages.prototype.init = function() {
   });
 };
 
-//Create DOM elements
+//Initialize DOM elements
 const htmlElements = {
   messageOutput: document.querySelector("ul.messages"),
   messageInput: document.querySelector("textarea"),
@@ -29,6 +29,7 @@ htmlElements.messageForm.addEventListener("keydown", function(e) {
 // Toggle for the button.
 htmlElements.messageInput.addEventListener("input", toggleButton);
 
+//render messages
 function showMessages(messages) {
   htmlElements.messageOutput.innerHTML = "";
   for (let i = 0; i < messages.length; i++) {
@@ -36,6 +37,7 @@ function showMessages(messages) {
   }
 }
 
+//Create DOM element for chat body
 function printMessage(currentMessage) {
   const authorPhoto = document.createElement("img");
   authorPhoto.classList.add("message__photo");
@@ -63,6 +65,7 @@ function printMessage(currentMessage) {
   setTimeout(scrollDown(), 0);
 }
 
+//send new message and transfer in web socket
 function sendMessage(event) {
   event.preventDefault();
 
@@ -71,7 +74,7 @@ function sendMessage(event) {
   const newMessage = {
     name: localStorage.getItem("userName"),
     text: newMessageText,
-    uid: localStorage.getItem("userId")
+    uid: parseFloat(localStorage.getItem("userId"))
   };
 
   _messageService.addMessage(newMessage);
@@ -82,6 +85,7 @@ function sendMessage(event) {
   toggleButton();
 }
 
+//disabled send button when nothing is entered
 function toggleButton() {
   if (htmlElements.messageInput.value) {
     htmlElements.sendButton.removeAttribute("disabled");
@@ -90,11 +94,13 @@ function toggleButton() {
   }
 }
 
+//scroll down messages
 function scrollDown() {
   htmlElements.messageOutput.scrollTop =
     htmlElements.messageOutput.scrollHeight;
 }
 
+//connect to socket.io
 socket.on("connect", () => console.log("socket online"));
 socket.on("chat", message => printMessage(message));
 

@@ -1,5 +1,5 @@
 import { Login, Messages } from "./modules.js";
-import "./preloader.js";
+import "./preloader.js"; //spiner
 
 const _login = new Login();
 const _messages = new Messages();
@@ -11,8 +11,7 @@ const htmlElements = {
   logoutButton: document.querySelector(".chat-header__btns .btn-red"),
   loginButtonText: document.querySelector(
     "form.signup-form > div.buttom-text > a"
-  ),
-  signUpForm: document.querySelector("form.signup-form")
+  )
 };
 
 htmlElements.loginButton.addEventListener("click", _login.loginClick);
