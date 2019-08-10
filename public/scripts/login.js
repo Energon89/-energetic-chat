@@ -72,6 +72,12 @@ function loginSuccess() {
 function signUpClick() {
   htmlElements.loginForm.classList.add("hidden");
   htmlElements.signupForm.classList.remove("hidden");
+  htmlElements.loginForm.querySelectorAll(".error").forEach(element => {
+    element.classList.add("hidden");
+  });
+  htmlElements.signupForm.querySelectorAll(".error").forEach(element => {
+    element.classList.add("hidden");
+  });
 }
 
 //function responsible for hide forms to clicking on the close button
