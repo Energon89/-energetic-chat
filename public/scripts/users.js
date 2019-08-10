@@ -7,6 +7,7 @@ export class Users {
   constructor() {
     _usersService = new UsersService();
     this.initDomElements();
+    _htmlElements.loginForm.addEventListener("submit", this.logIn);
   }
 
   initDomElements() {
