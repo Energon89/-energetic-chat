@@ -2,5 +2,5 @@
 
 Чтобы запустить проект нужно в консоли выполнить следующие команды:
 
-    npm install socket.io
+    npm install
     node socket.js
