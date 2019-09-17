@@ -2,20 +2,26 @@
   "name": "-energetic-chat",
   "version": "1.0.0",
   "description": "",
-  "main": "socket.js",
+  "main": "index.js",
   "dependencies": {
     "socket.io": "^2.2.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^1.19.2"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Energon89/-energetic-chat.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "chat",
+    "messenger"
+  ],
+  "author": "Evgeni Podymov <podymov89@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Energon89/-energetic-chat/issues"

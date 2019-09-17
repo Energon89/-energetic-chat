@@ -2,7 +2,7 @@ import { MessageService } from "./modules.js";
 
 const _messageService = new MessageService();
 
-const socket = io("http://localhost:3000"); //connect web socket
+const socket = io("http://localhost:8080"); //connect web socket
 
 function Messages() {}
 
